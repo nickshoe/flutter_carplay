@@ -51,7 +51,11 @@ class FCPListItem {
                 }
             }
         if image != nil {
-            listItem.setImageUrl(URL(string: image!))
+            if image!.hasPrefix("http") {
+                listItem.setImageUrl(URL(string: image!))
+            } else {
+                listItem.setImage(UIImage().fromFlutterAsset(name: image!))
+            }
         }
         if playbackProgress != nil {
             listItem.playbackProgress = playbackProgress!
@@ -91,7 +95,11 @@ class FCPListItem {
             self.detailText = detailText
         }
         if image != nil {
-            self._super?.setImageUrl(URL(string: image!))
+            if image!.hasPrefix("http") {
+                self._super?.setImageUrl(URL(string: image!))
+            } else {
+                self._super?.setImage(UIImage().fromFlutterAsset(name: image!))
+            }
             self.image = image
         }
         if playbackProgress != nil {
@@ -180,13 +188,13 @@ extension UIImage {
     }
 
     var cpCropSquareImage: UIImage {
-        /* basic image cropping ... */
+        /* TODO: basic image cropping ... */
         return self
     }
     
     func resized(to newSize: CGSize) -> UIImage?
     {
-        /* basic image resizing ... */
+        /* TODO: basic image resizing ... */
         return self
     }
 }
