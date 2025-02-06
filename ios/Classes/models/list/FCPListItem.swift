@@ -194,9 +194,21 @@ extension UIImage {
         return self
     }
     
+    // https://stackoverflow.com/questions/70982018/how-to-resize-and-reshape-uiimage-without-causing-any-distortion/71078857#71078857
     func resized(to newSize: CGSize) -> UIImage?
     {
-        /* TODO: basic image resizing ... */
-        return self
+        // Draw and return the resized UIImage
+        let renderer = UIGraphicsImageRenderer(
+            size: newSize
+        )
+
+        let scaledImage = renderer.image { _ in
+            self.draw(in: CGRect(
+                origin: .zero,
+                size: newSize
+            ))
+        }
+        
+        return scaledImage
     }
 }
