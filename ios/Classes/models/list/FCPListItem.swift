@@ -152,6 +152,7 @@ extension CPListItem {
         guard let imageUrl = url else { return }
 
         // TODO: refactor - download image from URL
+        // https://stackoverflow.com/questions/24231680/loading-downloading-image-from-url-on-swift
         URLSession.shared.dataTask(with: imageUrl) { data, response, error in
             guard
                 let httpURLResponse = response as? HTTPURLResponse,
@@ -162,6 +163,7 @@ extension CPListItem {
             else { return }
 
             // TODO: refactor - crop and resize logic
+            // https://developer.apple.com/forums/thread/695636
             let cropped = image.cpCropSquareImage
             let resized = cropped.resized(to: CPListItem.maximumImageSize)
             let carPlayImage = resized?.carPlayImage
