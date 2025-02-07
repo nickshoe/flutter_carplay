@@ -190,25 +190,57 @@ extension UIImage {
     }
 
     var cpCropSquareImage: UIImage {
-        /* TODO: basic image cropping ... */
+        var x: CGFloat
+        var y: CGFloat
+        var width: CGFloat
+        var height: CGFloat
+
+        if size.height < size.width {
+            width = size.height
+            height = size.height
+            x = (size.width - size.height) / 2
+            y = 0
+        } else {
+            width = size.width
+            height = size.width
+            x = 0
+            y = (size.height - size.width) / 2
+        }
+
+        let rect: CGRect = CGRect(
+            x: x,
+            y: y,
+            width: width,
+            height: height
+        )
+
+        // Ensure the rect is within the bounds of the image
+        let croppedCGImage = self.cgImage?.cropping(to: rect)
+
+        // If cropping succeeds, return a new UIImage
+        if let croppedCGImage = croppedCGImage {
+            return UIImage(cgImage: croppedCGImage)
+        }
+
+        // Return original image if cropping fails
         return self
     }
-    
+
     // https://stackoverflow.com/questions/70982018/how-to-resize-and-reshape-uiimage-without-causing-any-distortion/71078857#71078857
-    func resized(to newSize: CGSize) -> UIImage?
-    {
+    func resized(to newSize: CGSize) -> UIImage? {
         // Draw and return the resized UIImage
         let renderer = UIGraphicsImageRenderer(
             size: newSize
         )
 
         let scaledImage = renderer.image { _ in
-            self.draw(in: CGRect(
-                origin: .zero,
-                size: newSize
-            ))
+            self.draw(
+                in: CGRect(
+                    origin: .zero,
+                    size: newSize
+                ))
         }
-        
+
         return scaledImage
     }
 }
