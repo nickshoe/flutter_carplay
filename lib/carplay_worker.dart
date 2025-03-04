@@ -272,8 +272,7 @@ class FlutterCarplay {
     if (template.runtimeType == CPGridTemplate ||
         template.runtimeType == CPListTemplate ||
         template.runtimeType == CPInformationTemplate ||
-        template.runtimeType == CPPointOfInterestTemplate
-    ) {
+        template.runtimeType == CPPointOfInterestTemplate) {
       bool isCompleted = await _carPlayController
           .reactToNativeModule(FCPChannelTypes.pushTemplate, <String, dynamic>{
         "template": template.toJson(),
@@ -287,5 +286,18 @@ class FlutterCarplay {
     } else {
       throw TypeError();
     }
+  }
+
+  /// Navigate to the shared instance of the NowPlaying Template
+  ///
+  /// - If animated is true, CarPlay animates the transition between templates.
+  static Future<bool> showSharedNowPlaying({
+    bool animated = true,
+  }) async {
+    bool isCompleted = await _carPlayController.reactToNativeModule(
+      FCPChannelTypes.showNowPlaying,
+      animated,
+    );
+    return isCompleted;
   }
 }
